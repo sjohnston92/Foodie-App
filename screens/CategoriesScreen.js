@@ -3,20 +3,23 @@ import {View,Text,StyleSheet,TouchableOpacity,FlatList,Platform} from 'react-nat
 
 import {CATEGORIES} from '../data/dummy-data'
 import Colors from '../constants/Color'
+import CategoryGridTile from '../components/CategoryGridTile'
 
 const CategoriesScreen = props => {
 
+
   const renderGridItem = (itemData) =>{
     return (
-    <TouchableOpacity 
-    style={styles.gridItem}
-    onPress={()=>{
-      props.navigation.navigate({routeName:'CategoryMeals'})
-    }}>
-    <View>
-      <Text>{itemData.item.title}</Text>
-    </View>
-    </TouchableOpacity>
+    <CategoryGridTile 
+    title={itemData.item.title} 
+    color = {itemData.item.color}
+    onSelect={()=>{
+      props.navigation.navigate({
+        routeName:'CategoryMeals', params:{
+          categoryId: itemData.item.id
+        }
+      })
+    }}/>
     )
   }
 
@@ -32,11 +35,7 @@ const CategoriesScreen = props => {
 }
 
 CategoriesScreen.navigationOptions = {
-  headerTitle:"Meal Categories",
-  headerStyle: {
-    backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : " "
-  },
-  headerTintColor: Platform.OS === 'android' ? "white" : Colors.primaryColor
+  headerTitle:"Meal Categories"
   }
 
 const styles = StyleSheet.create({
@@ -45,11 +44,6 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center'
   },
-  gridItem:{
-    flex:1,
-    margin:15,
-    height: 150,
-  }
 })
 
 
